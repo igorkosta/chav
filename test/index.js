@@ -23,6 +23,6 @@ const createServer = function (options, callback) {
     options
   }, (err) => {
 
-      callback(err, server);
+    callback(err, server);
   });
-};
+}
