@@ -40,29 +40,28 @@ describe('Chav plugin with default options', () => {
     });
   });
 
-  it('should serve file from the default folder', (done) => {
+  it('should serve file from the default location', (done) => {
 
     server.inject({
       method: 'GET',
       url: '/statics'
     }, (response) => {
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.equal({ beers:
-                                          [ { id: '1', name: 'IPA' },
-                                          { id: '2', name: 'Stout' },
-                                          { id: '3', name: 'Lager' } ] });
+      expect(response.statusCode).to.equal(404);
+      expect(response.result).to.equal({ statusCode: 404,
+                                         error: 'Not Found',
+                                         message: 'You did not provide a proper file path, bitch!' });
       done();
     });
   });
 
 });
 
-describe('Chav plugin with wrong path', () => {
+describe('Chav plugin with wrong servable', () => {
   let server;
 
   before((done) => {
 
-    createServer({filePath: 'doesntexist'}, (err, _server) => {
+    createServer({servable: 'doesntexist'}, (err, _server) => {
 
       server = _server;
       done(err);
@@ -90,7 +89,7 @@ describe('Chav plugin with broken json file', () => {
 
   before((done) => {
 
-    createServer({filePath: 'statics/broken.json'}, (err, _server) => {
+    createServer({servable: '../test/statics/broken.json'}, (err, _server) => {
 
       server = _server;
       done(err);
@@ -107,6 +106,64 @@ describe('Chav plugin with broken json file', () => {
       expect(response.result).to.equal({ statusCode: 422,
                                          error: 'Unprocessable Entity',
                                          message: 'Could not read the file' });
+      done();
+    });
+  });
+
+});
+
+describe('Chav plugin with correct servable', () => {
+  let server;
+
+  before((done) => {
+
+    createServer({servable: '../test/statics/static.json'}, (err, _server) => {
+
+      server = _server;
+      done(err);
+    });
+  });
+
+  it('should render the json file', (done) => {
+
+    server.inject({
+      method: 'GET',
+      url: '/statics'
+    }, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.equal({ beers:
+                                          [ { id: '1', name: 'IPA' },
+                                          { id: '2', name: 'Stout' },
+                                          { id: '3', name: 'Lager' } ] });
+      done();
+    });
+  });
+
+});
+
+describe('Chav plugin with correct servable and different path', () => {
+  let server;
+
+  before((done) => {
+
+    createServer({servable: '../test/statics/static.json', path: '/beers'}, (err, _server) => {
+
+      server = _server;
+      done(err);
+    });
+  });
+
+  it('should render the json file', (done) => {
+
+    server.inject({
+      method: 'GET',
+      url: '/beers'
+    }, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.equal({ beers:
+                                          [ { id: '1', name: 'IPA' },
+                                          { id: '2', name: 'Stout' },
+                                          { id: '3', name: 'Lager' } ] });
       done();
     });
   });
