@@ -55,3 +55,6 @@ When you register your plugin with e.g. `glue`:
 ```
 
 - Check if the `servable` is actually a `file` or a `directory` and if it's a `directory` serve every file as an API route, e.g. file name is a route name.
+
+## License
+[MIT](https://opensource.org/licenses/MIT)
