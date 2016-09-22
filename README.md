@@ -1,4 +1,4 @@
-# Chav
+# Chav https://codeship.com/projects/6d00f750-632c-0134-e217-22dce1a7050d/status?branch=master
 Sometimes in life you just want to serve static `json` content as an API route.
 
 `chav` is a hapi.js plugin to serve a static `json` file as an API route. Per default the file under `static/static.json` is served as `GET /statics`
