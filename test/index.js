@@ -40,7 +40,7 @@ describe('Chav plugin with default options', () => {
     });
   });
 
-  it('should serve file from the default location', (done) => {
+  it('should throw an error if folder is empty', (done) => {
 
     server.inject({
       method: 'GET',

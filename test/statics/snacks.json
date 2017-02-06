@@ -1,0 +1,16 @@
+{
+  "snacks" : [
+    {
+      "id" : "1",
+      "name" : "Nachos"
+    },
+    {
+      "id" : "2",
+      "name" : "Nuts"
+    },
+    {
+      "id" : "3",
+      "name" : "Chicken Wings"
+    }
+  ]
+}
